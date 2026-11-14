@@ -1,0 +1,177 @@
+# ZyonPay - config.yml
+# Changes to this file need a server restart, except the "currencies" section, which /zyonpay reload applies
+# (default-currency cannot change without a restart).
+# messages.yml and menus.yml are also reloaded with /zyonpay reload.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Permissions
+# ---------------------------------------------------------------------------------------------------------------
+#   Players (default: everyone)
+#     zyonpay.balance                 /balance
+#     zyonpay.balance.<currency>      /balance with a non-default currency (the default one only needs zyonpay.balance)
+#     zyonpay.pay                     /pay <player> <amount|percent>
+#     zyonpay.pay.<currency>          /pay with a non-default currency
+#     zyonpay.paytoggle               /paytoggle (block players, or everyone with *)
+#     zyonpay.baltop                  /baltop
+#     zyonpay.baltop.<currency>       /baltop <currency> for a non-default currency
+#     zyonpay.history                 /payhistory, /pay history
+#
+#   Staff (default: op)
+#     zyonpay.balance.others          /balance <player>
+#     zyonpay.pay.all                 /pay * <amount> (pay everyone online on this server)
+#     zyonpay.history.others          /payhistory <player>, /zyonpay history <player>
+#     zyonpay.eco                     /eco give|take|set|reset|setmax
+#     zyonpay.eco.<currency>          /eco with a non-default currency
+#     zyonpay.tx                      /eco tx <player>, /zyonpay tx <player> <id>
+#     zyonpay.tx.revert               /zyonpay tx <player> <id> revert
+#     zyonpay.reload                  /zyonpay reload
+#     zyonpay.data                    /zyonpay backup | restore | purge | migrate | switch-currency
+#     zyonpay.admin                   everything above except the per-currency nodes; also needed for /zyonpay itself
+#     zyonpay.*                       every permission of the plugin
+#
+#   <currency> is the id of a currency from "currencies" below.
+# ---------------------------------------------------------------------------------------------------------------
+
+# Unique id of THIS server inside the network (max 32 characters).
+# Every server that shares the database needs a different value.
+server-id: "server-1"
+
+# Log extra information (Redis sync, tab completion).
+debug: false
+
+# Store which plugin made each Vault operation as the transaction reason.
+# 0 = off, 1 = class, 2 = class + method, 3 = class + method + line.
+register-calls-verbosity: 0
+# Classes matching these regexes are skipped when looking for the calling plugin.
+call-blacklist-regex:
+  - "^org\\.bukkit.*"
+  - "^io\\.papermc.*"
+  - "^com\\.mojang.*"
+  - "^me\\.sebastiancheikh\\.zyonpay.*"
+
+# Enables /zyonpay migrate, which imports balances from another Vault economy plugin
+# (only for players that have no ZyonPay account yet) into the default currency.
+migration:
+  enabled: false
+
+database:
+  host: "127.0.0.1"
+  port: 3306
+  name: "zyonpay"
+  user: "zyonpay"
+  password: "change-me"
+  pool-size: 10
+  connection-timeout-ms: 5000
+
+# Redis keeps servers in sync (payment notices, balance refreshes), shares the baltop and the network player list.
+# With enabled: false the plugin works on a single server.
+redis:
+  enabled: true
+  host: "127.0.0.1"
+  port: 6379
+  user: ""
+  password: ""
+  database: 0
+  # Channel and key prefix. Must be the same on every server of the network.
+  prefix: "zyonpay"
+  # Connection and command timeout.
+  timeout-ms: 2000
+  # Use TLS to connect to Redis.
+  ssl: false
+
+# Currency used by /balance, /pay, /baltop and Vault when none is given.
+# Only this one is registered as the Vault economy service.
+default-currency: "dollar"
+
+# Define as many currencies as you need.
+currencies:
+  # The id is 1-8 characters (a-z, 0-9, _). It cannot be "others", "all" or "admin".
+  dollar:
+    symbol: "$"
+    singular: "dollar"
+    plural: "dollars"
+    # DecimalFormat pattern used to display amounts and the decimal/grouping separators of language-tag.
+    decimal-format: "#,##0.00"
+    language-tag: "en-US"
+    starting-balance: 1000.00
+    # Balance cap per player. Maximum recommended: 90000000000000 (9e13).
+    max-balance: 1000000000000.00
+    # Tax taken from what the recipient of /pay receives (0.05 = 5%).
+    pay-tax: 0.0
+    # true: the tax only applies to /pay. false: it also applies to money other plugins deposit through Vault.
+    tax-only-pay: true
+    # Keep this currency's operations in the history.
+    save-transactions: true
+    # Days to keep history; -1 keeps it forever.
+    history-ttl-days: -1
+    # false makes the currency impossible to send with /pay (earn-only or admin-managed currencies).
+    allow-pay: true
+    # Optional /pay limits for this currency. min-pay defaults to pay.min-amount; max-pay defaults to no limit.
+    # min-pay: 1.00
+    # max-pay: 1000000.00
+  gems:
+    symbol: "G"
+    singular: "gem"
+    plural: "gems"
+    decimal-format: "#"
+    language-tag: "en-US"
+    starting-balance: 0
+    max-balance: 1000000
+    pay-tax: 0.0
+    tax-only-pay: true
+    save-transactions: false
+    history-ttl-days: -1
+
+economy:
+  # How often (in ticks, 20 = 1 second) balance changes are written to MariaDB.
+  # Lower values lose less if the server crashes but write more.
+  flush-interval-ticks: 20
+  # Which kinds of operations are recorded in the history (and can be reverted).
+  log-pay-transactions: true       # /pay between players
+  log-admin-transactions: true     # /eco and reverts
+  log-vault-transactions: true     # other plugins (shops, jobs...)
+
+pay:
+  min-amount: 1.00
+  # true: you can pay players that are not connected to any server.
+  # false: only players connected to THIS server.
+  allow-offline: true
+  # Allow "/pay <player> 10%" (a percentage of your balance).
+  allow-percentage: true
+  # Minimum wait between two payments of the same player, in milliseconds.
+  cooldown-ms: 500
+  # Tell the recipient in chat when they get paid.
+  notify-recipient: true
+  # Sounds as "sound.key;volume;pitch" (volume and pitch optional). Leave empty for no sound.
+  # Example: "entity.experience_orb.pickup;1.0;1.2"
+  sounds:
+    sent: ""
+    received: ""
+
+tab:
+  # Letters typed before player names are suggested (0 = suggest immediately).
+  complete-chars: 0
+  # true: suggest only players connected to this server. false: players of the whole network.
+  online-only: false
+  # How often (seconds) each server refreshes the network player list through Redis.
+  network-sync-seconds: 3
+
+placeholders:
+  # How long the Vault prefix/suffix of ranking players is cached.
+  cache-interval-ms: 5000
+  # How many ranking positions the top placeholders cover.
+  top-accounts: 100
+  # Units of the short format (%zyonpay_bal_short%, 1.5k, 2M). Index i applies from 1000^i.
+  short-units: ["", "k", "M", "B", "T"]
+
+baltop:
+  # Players shown in the ranking menu.
+  size: 100
+  refresh-seconds: 30
+
+history:
+  # Rows loaded when the history menu opens.
+  page-limit: 100
+  # Lines printed in chat by /eco tx and /zyonpay history.
+  chat-lines: 10
+  date-format: "dd/MM/yyyy HH:mm"
