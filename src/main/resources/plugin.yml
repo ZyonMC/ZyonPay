@@ -1,0 +1,101 @@
+name: ZyonPay
+version: '${version}'
+main: me.sebastiancheikh.zyonpay.ZyonPayPlugin
+api-version: '26.3'
+authors: [Sebastian Cheikh]
+description: Multi-server, multi-currency economy (MariaDB + Redis) with Vault, baltop and history in configurable menus.
+depend: [Vault]
+softdepend: [PlaceholderAPI]
+
+# Paper downloads these libraries at startup (they are not shaded into the jar).
+libraries:
+  - com.zaxxer:HikariCP:5.1.0
+  - org.mariadb.jdbc:mariadb-java-client:3.4.1
+  - io.lettuce:lettuce-core:6.5.5.RELEASE
+
+commands:
+  balance:
+    description: Show your balance or another player's.
+    aliases: [bal, money]
+    permission: zyonpay.balance
+    usage: /<command> [player] [currency]
+  pay:
+    description: Send money to a player (online or offline), or to everyone with *.
+    permission: zyonpay.pay
+    usage: /<command> <player|*> <amount|percent> [currency] | /<command> history [player]
+  paytoggle:
+    description: Block players from paying you, or accept/refuse all payments with *.
+    permission: zyonpay.paytoggle
+    usage: /<command> [player|*]
+  eco:
+    description: Economy administration.
+    aliases: [economy]
+    permission: zyonpay.eco
+    usage: /<command> <give|take|set|reset|setmax|tx> <player> [amount] [currency] [reason]
+  zyonpay:
+    description: Plugin info, reload and admin tools.
+    permission: zyonpay.admin
+    usage: /<command> <reload|tx|history|backup|restore|purge|migrate|switch-currency>
+
+permissions:
+  zyonpay.balance:
+    description: View your balance.
+    default: true
+  zyonpay.balance.others:
+    description: View other players' balances.
+    default: op
+  zyonpay.pay:
+    description: Pay other players.
+    default: true
+  zyonpay.pay.all:
+    description: Pay everyone online on this server with /pay *.
+    default: op
+  zyonpay.paytoggle:
+    description: Block payers or toggle payments.
+    default: true
+  zyonpay.baltop:
+    description: Open the balance ranking.
+    default: true
+  zyonpay.history:
+    description: View your payment history.
+    default: true
+  zyonpay.history.others:
+    description: View other players' history.
+    default: op
+  zyonpay.eco:
+    description: Use /eco give|take|set|reset|setmax.
+    default: op
+  zyonpay.tx:
+    description: Look up transactions (/eco tx, /zyonpay tx).
+    default: op
+  zyonpay.tx.revert:
+    description: Revert a transaction with /zyonpay tx <player> <id> revert.
+    default: op
+  zyonpay.reload:
+    description: Reload messages.yml, menus.yml and currencies.
+    default: op
+  zyonpay.data:
+    description: Backup, restore, purge, migrate and switch-currency.
+    default: op
+  zyonpay.admin:
+    description: All administration permissions.
+    default: op
+    children:
+      zyonpay.eco: true
+      zyonpay.tx: true
+      zyonpay.tx.revert: true
+      zyonpay.reload: true
+      zyonpay.data: true
+      zyonpay.pay.all: true
+      zyonpay.balance.others: true
+      zyonpay.history.others: true
+  zyonpay.*:
+    description: All ZyonPay permissions.
+    default: op
+    children:
+      zyonpay.admin: true
+      zyonpay.balance: true
+      zyonpay.pay: true
+      zyonpay.paytoggle: true
+      zyonpay.baltop: true
+      zyonpay.history: true
