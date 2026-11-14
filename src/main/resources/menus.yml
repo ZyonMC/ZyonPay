@@ -1,0 +1,115 @@
+# ZyonPay - menus.yml
+# Syntax based on DeluxeMenus. Reload with /zyonpay reload.
+#
+# Per menu:
+#   menu_title    title (MiniMessage). Fixed when the menu opens, so {page} is always 1 here;
+#                 show the page in an item instead (see "info").
+#   size          9, 18, 27, 36, 45 or 54
+#   open_command  command (or list of commands) that opens the menu
+#   data_source   (ZyonPay extension) baltop | history: fills the rows of the menu
+#   currency      (ZyonPay extension) currency id the menu shows; the default currency if omitted.
+#                 /baltop <currency> overrides it for the ranking.
+#
+# Per item:
+#   material, slot, slots (list, ranges like "10-16" allowed), display_name, lore, amount, glow
+#   left_click_commands, right_click_commands, click_commands
+#   view_requirement:  requirements -> <id> -> type: "has permission" | "!has permission", permission: <node>
+#   dynamic: true      (extension) the item repeats once per row of data_source; use material PLAYER_HEAD
+#                      to show the head of the row's player. Only one dynamic item per menu.
+#
+# Actions: [close] [player] <cmd> [console] <cmd> [message] <text> [openmenu] <menu> [nextpage] [prevpage]
+#
+# Placeholders in texts and commands:
+#   All menus:       {viewer} {page} {pages} {total}
+#   baltop (rows):   {rank} {name} {balance} {balance_short} {balance_raw} {currency}
+#   history (rows):  {id} {type} {other} {amount} {currency} {reason} {sign} {color} {server} {date}
+#   PlaceholderAPI %placeholders% also work when PlaceholderAPI is installed.
+
+menus:
+  baltop:
+    menu_title: "<gold><bold>Top Balances"
+    size: 54
+    open_command: baltop
+    data_source: baltop
+    items:
+      border:
+        material: GRAY_STAINED_GLASS_PANE
+        display_name: " "
+        slots: ["0-9", "17-18", "26-27", "35-36", "44-45", "46-47", "51-53"]
+      info:
+        material: BOOK
+        slot: 4
+        display_name: "<yellow>Page {page}/{pages}"
+        lore:
+          - "<gray>Total: <white>{total}"
+      entry:
+        material: PLAYER_HEAD
+        dynamic: true
+        slots: ["10-16", "19-25", "28-34", "37-43"]
+        display_name: "<yellow>#{rank} <white>{name}"
+        lore:
+          - "<gray>Balance: <green>{balance}"
+          - "<dark_gray>({balance_short})"
+      prev:
+        material: ARROW
+        slot: 48
+        display_name: "<green>Previous page"
+        left_click_commands:
+          - "[prevpage]"
+      close:
+        material: BARRIER
+        slot: 49
+        display_name: "<red>Close"
+        left_click_commands:
+          - "[close]"
+      next:
+        material: ARROW
+        slot: 50
+        display_name: "<green>Next page"
+        left_click_commands:
+          - "[nextpage]"
+
+  history:
+    menu_title: "<gold><bold>History"
+    size: 54
+    open_command: payhistory
+    data_source: history
+    items:
+      border:
+        material: GRAY_STAINED_GLASS_PANE
+        display_name: " "
+        slots: ["0-9", "17-18", "26-27", "35-36", "44-45", "46-47", "51-53"]
+      info:
+        material: BOOK
+        slot: 4
+        display_name: "<yellow>Page {page}/{pages}"
+        lore:
+          - "<gray>Total: <white>{total}"
+      entry:
+        material: PAPER
+        dynamic: true
+        slots: ["10-16", "19-25", "28-34", "37-43"]
+        display_name: "<{color}>{sign}{amount} <gray>({type})"
+        lore:
+          - "<dark_gray>#{id} {reason}"
+          - "<gray>With: <white>{other}"
+          - "<gray>Date: <white>{date}"
+          - "<gray>Server: <white>{server}"
+      prev:
+        material: ARROW
+        slot: 48
+        display_name: "<green>Previous page"
+        left_click_commands:
+          - "[prevpage]"
+      close:
+        material: BARRIER
+        slot: 49
+        display_name: "<red>Close"
+        left_click_commands:
+          - "[close]"
+      next:
+        material: ARROW
+        slot: 50
+        display_name: "<green>Next page"
+        left_click_commands:
+          - "[nextpage]"

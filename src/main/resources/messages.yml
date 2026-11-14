@@ -1,0 +1,120 @@
+# ZyonPay - messages.yml (MiniMessage format: https://docs.advntr.dev/minimessage)
+# <prefix> is replaced by the "prefix" value. Reload with /zyonpay reload.
+
+prefix: "<gradient:#f5c542:#f59e42><bold>ZyonPay</bold></gradient> <dark_gray>»</dark_gray> "
+
+no-permission: "<prefix><red>You don't have permission to do that."
+player-only: "<prefix><red>Only players can use this command."
+player-not-found: "<prefix><red>Player <white><player></white> does not exist on the network."
+invalid-amount: "<prefix><red>Invalid amount. Use a positive number with an optional suffix (k, m, b, t). Example: <white>1.5k</white>."
+currency-not-found: "<prefix><red>Unknown currency <white><currency></white>. Available: <white><currencies></white>."
+error: "<prefix><red>Something went wrong. Try again and tell an administrator if it keeps happening."
+login-database-error: "<red>The economy is not available right now.\n<gray>Try joining again in a few seconds."
+reloaded: "<prefix><green>messages.yml, menus.yml and currencies reloaded. <gray>(the rest of config.yml needs a restart)"
+reload-failed: "<prefix><red>Reload failed, nothing was changed: <white><reason>"
+plugin-info: "<prefix><gray>ZyonPay <white><version></white> by <white>Sebastian Cheikh</white>."
+
+balance:
+  self: "<prefix><gray>Your balance: <green><balance></green>"
+  other: "<prefix><gray><white><player></white>'s balance: <green><balance></green>"
+  usage: "<prefix><red>Usage: <white>/balance [player] [currency]"
+
+pay:
+  usage: "<prefix><red>Usage: <white>/pay <player|*> <amount|percent> [currency]</white> <gray>or</gray> <white>/pay history [player]"
+  sent: "<prefix><gray>You sent <green><amount></green> to <white><player></white>."
+  tax: "<prefix><gray>Tax: <red><tax></red>. <white><player></white> received <green><received></green>."
+  received: "<prefix><gray>You received <green><amount></green> from <white><player></white>."
+  self: "<prefix><red>You can't pay yourself."
+  min-amount: "<prefix><red>The minimum amount is <white><min></white>."
+  max-amount: "<prefix><red>The maximum amount per payment is <white><max></white>."
+  disabled-currency: "<prefix><red>You can't send <white><currency></white> to other players."
+  cooldown: "<prefix><red>Wait <white><seconds>s</white> before paying again."
+  insufficient-funds: "<prefix><red>You don't have enough money."
+  recipient-disabled: "<prefix><red><white><player></white> does not accept payments."
+  recipient-blocked: "<prefix><red><white><player></white> does not accept payments from you."
+  recipient-max-balance: "<prefix><red><white><player></white> can't receive that much money."
+  recipient-offline: "<prefix><red><white><player></white> is not connected to this server."
+  too-small: "<prefix><red>After tax, the recipient would receive nothing."
+  nobody: "<prefix><red>There is nobody else online on this server."
+  all-none: "<prefix><red>Nobody could be paid."
+  sent-all: "<prefix><gray>You paid <green><amount></green> to <white><count></white> players (<green><total></green> in total)."
+
+paytoggle:
+  usage: "<prefix><red>Usage: <white>/paytoggle [player|*]"
+  enabled: "<prefix><gray>You now <green>accept</green> payments."
+  disabled: "<prefix><gray>You now <red>refuse</red> all payments."
+  self: "<prefix><red>You can't block yourself. Use <white>/paytoggle *</white> to refuse everyone."
+  blocked: "<prefix><gray><white><player></white> can no longer pay you."
+  unblocked: "<prefix><gray><white><player></white> can pay you again."
+  list: "<prefix><gray>Blocked players: <white><players>"
+  list-empty: "<prefix><gray>You have not blocked anyone."
+
+eco:
+  usage:
+    - "<prefix><red>Usage:"
+    - "<white>/eco give|take|set <player> <amount> [currency] [reason]"
+    - "<white>/eco reset <player> [currency] [reason]"
+    - "<white>/eco setmax <player> <amount|reset> [currency]"
+    - "<white>/eco tx <player>"
+  give: "<prefix><gray>You gave <green><amount></green> to <white><player></white>. Balance: <green><balance></green>."
+  take: "<prefix><gray>You took <red><amount></red> from <white><player></white>. Balance: <green><balance></green>."
+  set: "<prefix><gray><white><player></white>'s balance set to <green><balance></green>."
+  reset: "<prefix><gray><white><player></white>'s balance reset to <green><balance></green>."
+  setmax: "<prefix><gray><white><player></white>'s balance cap set to <green><max></green>."
+  setmax-reset: "<prefix><gray><white><player></white>'s balance cap restored to the currency default (<green><max></green>)."
+  insufficient-funds: "<prefix><red><white><player></white> only has <white><balance></white>."
+  max-balance: "<prefix><red>That would exceed the maximum allowed balance."
+
+tx:
+  usage: "<prefix><red>Usage: <white>/zyonpay tx <player> <id> [revert]"
+  header: "<prefix><gray>Latest transactions of <white><player></white>:"
+  line: "<dark_gray>#<id> [<date>] <type> <sign_color><sign><amount> <gray><other> <dark_gray>(<server>)<reason><red><reverted>"
+  empty: "<prefix><gray><player> has no transactions."
+  not-found: "<prefix><red>Transaction <white>#<id></white> not found for that player."
+  detail:
+    - "<prefix><gray>Transaction <white>#<id></white><red><reverted>"
+    - "<gray>From: <white><from> <gray>To: <white><to>"
+    - "<gray>Amount: <green><amount> <gray>(<type>) on <white><server>"
+    - "<gray>Date: <white><date> <gray>Reason: <white><reason>"
+  reverted: "<prefix><green>Transaction <white>#<id></white> reverted."
+  already-reverted: "<prefix><red>Transaction <white>#<id></white> was already reverted."
+  revert-insufficient: "<prefix><red>Can't revert <white>#<id></white>: the recipient no longer has that money."
+
+history-cmd:
+  usage: "<prefix><red>Usage: <white>/zyonpay history <player> [before] [after]</white> <gray>(dates as <white><format></white>)"
+  bad-date: "<prefix><red>Invalid date. Use the format <white><format></white>."
+  next: "<prefix><gray>Older entries: <white>/zyonpay history <player> <before>"
+
+data:
+  file-usage: "<prefix><red>Give a file name, for example <white>/zyonpay backup before-update</white>."
+  file-invalid: "<prefix><red>Invalid file name. Use only letters, numbers, dots, dashes and underscores."
+  file-not-found: "<prefix><red>Backup <white><file></white> does not exist in plugins/ZyonPay/backups."
+  backup-done: "<prefix><green>Backup saved as <white><file></white>."
+  restore-confirm: "<prefix><red>This REPLACES all balances and history with <white><file></white>. Repeat the command with <white>confirm</white> at the end to continue."
+  restore-done: "<prefix><green>Backup <white><file></white> restored. Other servers were asked to reload their accounts."
+  purge-usage: "<prefix><red>Usage: <white>/zyonpay purge <regex> [confirm]"
+  invalid-regex: "<prefix><red>Invalid regular expression: <white><regex></white>"
+  purge-confirm: "<prefix><red><white><count></white> accounts match <white><regex></white> (players online here are skipped). Repeat with <white>confirm</white> at the end to delete them."
+  purge-done: "<prefix><green>Deleted <white><count></white> accounts."
+  migrate-disabled: "<prefix><red>Migration is disabled. Set <white>migration.enabled: true</white> in config.yml and restart."
+  migrate-none: "<prefix><red>No other Vault economy plugin was found to migrate from."
+  migrate-done: "<prefix><green>Imported <white><imported></white> accounts. Skipped <white><skipped></white> that already existed."
+  switch-usage: "<prefix><red>Usage: <white>/zyonpay switch-currency <currency> <currency> [confirm]"
+  switch-invalid: "<prefix><red>Pick two different currencies. Available: <white><currencies></white>."
+  switch-confirm: "<prefix><red>This swaps ALL balances and history between <white><a></white> and <white><b></white>. Repeat with <white>confirm</white> at the end to continue."
+  switch-done: "<prefix><green>Currencies swapped. <red>Restart ALL servers now</red> so they reload the balances."
+
+menu:
+  player-not-found: "<prefix><red>That player does not exist on the network."
+  unavailable: "<prefix><red>This menu is not available."
+
+history:
+  system: "System"
+  reverted: " [reverted]"
+  types:
+    pay: "Payment"
+    admin: "Admin"
+    vault: "Plugin"
+
+# Value returned by placeholders when there is no data.
+placeholder-unknown: "-"
