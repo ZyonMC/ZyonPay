@@ -2,7 +2,7 @@ plugins {
     java
 }
 
-group = "me.sebastiancheikh"
+group = "net.zyonmc"
 version = "1.0.0"
 
 repositories {
