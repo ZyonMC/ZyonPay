@@ -1,6 +1,6 @@
 name: ZyonPay
 version: '${version}'
-main: me.sebastiancheikh.zyonpay.ZyonPayPlugin
+main: net.zyonmc.zyonpay.ZyonPayPlugin
 api-version: '26.3'
 authors: [Sebastian Cheikh]
 description: Multi-server, multi-currency economy (MariaDB + Redis) with Vault, baltop and history in configurable menus.
