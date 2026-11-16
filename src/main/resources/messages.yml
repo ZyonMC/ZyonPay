@@ -35,6 +35,7 @@ pay:
   recipient-max-balance: "<prefix><red><white><player></white> can't receive that much money."
   recipient-offline: "<prefix><red><white><player></white> is not connected to this server."
   too-small: "<prefix><red>After tax, the recipient would receive nothing."
+  cancelled: "<prefix><red>Your payment was cancelled."
   nobody: "<prefix><red>There is nobody else online on this server."
   all-none: "<prefix><red>Nobody could be paid."
   sent-all: "<prefix><gray>You paid <green><amount></green> to <white><count></white> players (<green><total></green> in total)."
@@ -115,6 +116,7 @@ history:
     pay: "Payment"
     admin: "Admin"
     vault: "Plugin"
+    api: "Plugin"
 
 # Value returned by placeholders when there is no data.
 placeholder-unknown: "-"
