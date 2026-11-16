@@ -1,6 +1,6 @@
-package me.sebastiancheikh.zyonpay.economy;
+package net.zyonmc.zyonpay.economy;
 
-import me.sebastiancheikh.zyonpay.model.WalletRow;
+import net.zyonmc.zyonpay.model.WalletRow;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

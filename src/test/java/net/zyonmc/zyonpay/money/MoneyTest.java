@@ -1,4 +1,4 @@
-package me.sebastiancheikh.zyonpay.money;
+package net.zyonmc.zyonpay.money;
 
 import org.junit.jupiter.api.Test;
 

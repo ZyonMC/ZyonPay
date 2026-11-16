@@ -1,4 +1,4 @@
-package me.sebastiancheikh.zyonpay.menu;
+package net.zyonmc.zyonpay.menu;
 
 import org.junit.jupiter.api.Test;
 
