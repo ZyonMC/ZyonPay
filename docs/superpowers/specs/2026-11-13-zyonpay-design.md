@@ -30,7 +30,7 @@ transactions(id BIGINT AI PK, from_uuid BINARY(16) NULL, to_uuid BINARY(16) NULL
 schema_version(version INT)
 ```
 
-## Componentes (`me.sebastiancheikh.zyonpay`)
+## Componentes (`net.zyonmc.zyonpay`)
 | paquete | responsabilidad |
 |---|---|
 | `config` | `Settings` (config.yml tipado y validado), `Messages` (messages.yml, MiniMessage) |
